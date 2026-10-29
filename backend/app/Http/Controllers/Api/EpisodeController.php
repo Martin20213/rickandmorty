@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EpisodeIndexRequest;
+use App\Http\Resources\EpisodeResource;
 use App\Models\Episode;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -35,6 +36,6 @@ class EpisodeController extends Controller
             ->paginate($filters['per_page'] ?? 10)
             ->withQueryString();
 
-        return response()->json($episodes);
+        return EpisodeResource::collection($episodes);
     }
 }
