@@ -28,7 +28,7 @@ RickAndMortyClient
 RickAndMortySyncService
           |
           v
-RickAndMortyImporter
+RickAndMortyImporterService
           |
           v
     MySQL Database
@@ -257,7 +257,7 @@ app/
 │   ├── Episode.php
 │   └── Character.php
 └── Services/
-    ├── RickAndMortyImporter.php
+    ├── RickAndMortyImporterService.php
     └── RickAndMortySyncService.php
 ```
 
