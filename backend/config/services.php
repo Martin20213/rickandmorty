@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'rick_and_morty' => [
+    'base_url' => env('RICK_AND_MORTY_BASE_URL'),
+    'graphql_url' => env('RICK_AND_MORTY_GRAPHQL_URL'),
+    ],
+
 ];
