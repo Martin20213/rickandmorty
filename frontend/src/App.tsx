@@ -4,6 +4,7 @@ import EpisodeFilters from './components/EpisodeFilters'
 import EpisodeTable from './components/EpisodeTable'
 import Pagination from './components/Pagination'
 import { useEpisodes } from './hooks/useEpisodes'
+import Footer from './components/Footer'
 
 function App() {
   const {
@@ -85,9 +86,7 @@ function App() {
           />
         </section>
 
-        <footer className="mt-6 text-center text-xs text-slate-600">
-          Rick and Morty Episode Explorer · React · TypeScript · Laravel API
-        </footer>
+        <Footer />
       </div>
     </main>
   )
