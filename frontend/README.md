@@ -1,75 +1,132 @@
-# React + TypeScript + Vite
+# Rick and Morty Episode Explorer — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive web application for browsing, filtering, sorting, and navigating Rick and Morty episodes. Built with React and TypeScript, using a Laravel backend to retrieve episode data.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React** — component-based user interface
+- **TypeScript** — static typing
+- **Vite** — development server and build tooling
+- **Tailwind CSS v4** — utility-first styling
+- **Motion** — UI animations
+- **Fetch API** — communication with the backend REST API
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Episode listing** — displays episode names, air dates, and episode codes in a table.
+- **Search** — filter episodes by name, with a short debounce to avoid unnecessary requests.
+- **Date filtering** — filter episodes by an air-date range (from/to).
+- **Sorting** — sort episodes by name or air date in ascending or descending order.
+- **Pagination** — navigate between pages and select the number of episodes displayed per page.
+- **Loading and error states** — provides loading feedback, preserves the current table while refreshing, and allows retrying failed requests.
+- **Responsive UI** — adapts the layout to different screen sizes.
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+frontend/
+├── src/
+│   ├── api/
+│   │   └── episodes.ts       # Backend API requests
+│   ├── components/
+│   │   ├── EpisodeFilters.tsx
+│   │   ├── EpisodeTable.tsx
+│   │   ├── PageHeader.tsx
+│   │   └── Pagination.tsx
+│   ├── hooks/
+│   │   └── useEpisodes.ts    # Data fetching and filter state
+│   ├── types/
+│   │   └── episode.ts        # TypeScript interfaces
+│   ├── App.tsx
+│   └── index.css
+├── index.html
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Prerequisites
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js and npm
+- The Laravel backend running locally at `http://127.0.0.1:8000`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
 
+### 1. Install dependencies
+
+From the frontend directory:
+
+```bash
+npm install
 ```
+
+### 2. Start the backend
+
+Follow the setup instructions in the backend README and make sure the Laravel API is available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+### 3. Start the frontend development server
+
+```bash
+npm run dev
+```
+
+Vite will display the local development URL in the terminal, typically `http://localhost:5173`.
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+The production build is generated in the `dist/` directory.
+
+To preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## API Integration
+
+The frontend communicates with the Laravel backend through the `/api` path. During development, Vite proxies these requests to `http://127.0.0.1:8000`.
+
+The episode listing uses:
+
+```http
+GET /api/episodes
+```
+
+Supported query parameters:
+
+| Parameter | Description |
+|---|---|
+| `page` | Current page number |
+| `per_page` | Number of episodes per page |
+| `search` | Filter by episode name |
+| `air_date_from` | Start of the air-date range |
+| `air_date_to` | End of the air-date range |
+| `sort_by` | Sorting field: `name` or `air_date` |
+| `sort_direction` | Sort direction: `asc` or `desc` |
+
+Example request:
+
+```http
+GET /api/episodes?page=1&per_page=10&sort_by=air_date&sort_direction=desc
+```
+
+The API returns a paginated response containing the episode data, pagination links, and metadata.
+
+## Development Notes
+
+- API requests and response types are separated from UI components.
+- `useEpisodes` manages fetching, filtering, sorting, pagination, loading states, and errors.
+- Components are organized by responsibility to keep the application maintainable.
+- The backend is responsible for filtering, sorting, and pagination; the frontend sends the corresponding query parameters.
+
+## License
+
+This project was created for development and demonstration purposes. Rick and Morty is owned by its respective rights holders.
